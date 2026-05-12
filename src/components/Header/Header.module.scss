@@ -1,0 +1,43 @@
+.root {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(10, 8, 14, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #c9b8a8;
+}
+
+.nav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.link {
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  color: #a89f94;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    color: #e8e4dc;
+    background: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.active {
+  color: #f0ebe3;
+  background: rgba(180, 120, 80, 0.15);
+}

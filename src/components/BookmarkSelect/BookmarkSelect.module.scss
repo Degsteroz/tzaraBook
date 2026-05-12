@@ -1,0 +1,143 @@
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: #8a8078;
+  white-space: nowrap;
+  padding-top: 0.45rem;
+}
+
+.control {
+  position: relative;
+  min-width: 13.5rem;
+  max-width: min(24rem, 60vw);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(12, 10, 18, 0.98);
+  color: #e8e4dc;
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-align: left;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    background: rgba(20, 16, 28, 0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(200, 140, 90, 0.55);
+    outline-offset: 2px;
+  }
+}
+
+.triggerText {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.chevron {
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  opacity: 0.75;
+}
+
+.panel {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 6px);
+  right: 0;
+  left: 0;
+  min-width: 100%;
+  padding: 0.5rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(14, 11, 20, 0.98);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+.list {
+  margin: 0;
+  padding: 0.25rem 0;
+  list-style: none;
+  max-height: min(50vh, 18rem);
+  overflow-y: auto;
+}
+
+.item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.35rem;
+  padding: 0.2rem 0.35rem;
+  border-radius: 6px;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.openBtn {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0.5rem 0.65rem;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #e8e4dc;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover {
+    color: #fff8f0;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(200, 140, 90, 0.45);
+    outline-offset: -2px;
+  }
+}
+
+.removeBtn {
+  flex-shrink: 0;
+  width: 2.25rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: rgba(255, 80, 80, 0.12);
+  color: #f0a8a8;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 80, 80, 0.22);
+    color: #ffc8c8;
+  }
+
+  &:focus-visible {
+    outline: 2px solid rgba(255, 120, 120, 0.6);
+    outline-offset: 1px;
+  }
+}

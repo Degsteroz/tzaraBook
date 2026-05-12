@@ -1,0 +1,79 @@
+.root {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.title {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #f2ebe4;
+}
+
+.figure {
+  margin: 0 0 1.75rem;
+}
+
+.cover {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(52vh, 420px);
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+.blurb {
+  margin: 0 0 2rem;
+
+  p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: rgba(232, 228, 220, 0.92);
+    text-align: justify;
+    hyphens: auto;
+  }
+}
+
+.author {
+  margin: 0 0 2rem;
+  padding: 1.25rem 1.25rem 1.35rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.subtitle {
+  margin: 0 0 0.65rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #d4c4b0;
+}
+
+.placeholder {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(180, 170, 160, 0.9);
+  font-style: italic;
+}
+
+.footer {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.link {
+  color: #d4a574;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

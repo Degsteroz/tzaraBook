@@ -1,0 +1,13 @@
+.root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: #0c0a0f;
+  color: #e8e4dc;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

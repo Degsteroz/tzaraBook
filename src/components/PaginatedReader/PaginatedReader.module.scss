@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.reading {
+  max-width: 880px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.article {
+  padding: 0.75rem 1.25rem 1.5rem;
+  box-sizing: border-box;
+  width: 100%;
+}

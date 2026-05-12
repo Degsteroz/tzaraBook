@@ -1,0 +1,41 @@
+.root {
+  line-height: 1.65;
+  color: #e8e4dc;
+
+  :global(h1) {
+    font-size: 1.75em;
+    font-weight: 600;
+    margin: 0 0 0.75em;
+    letter-spacing: 0.02em;
+  }
+
+  :global(p) {
+    margin: 0 0 1em;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  :global(strong) {
+    font-weight: 600;
+    color: #f5f0e6;
+  }
+
+  :global(.bookFloatFigure) {
+    float: left;
+    width: 400px;
+    height: 400px;
+    max-width: min(400px, 45vw);
+    max-height: min(400px, 45vw);
+    object-fit: cover;
+    margin: 0 1.25rem 1rem 0;
+    shape-outside: margin-box;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  }
+
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
