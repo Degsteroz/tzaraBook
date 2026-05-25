@@ -1,73 +1,81 @@
-# React + TypeScript + Vite
+# TzaraBook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SPA для чтения книги: главы в Markdown, навигация, кегль, «страницы» по объёму текста, закладки в браузере.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Для автора книги
 
-## React Compiler
+Вы разработчик, но с **веб-стеком и раскладкой этого репозитория** могли не работать — ниже только то, что нужно для текста книги и выкладки на прод.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### GitHub и редактор
 
-## Expanding the ESLint configuration
+- Вас добавляют **collaborator** в репозиторий на GitHub с правом пушить в прод-ветку (часто `main`).
+- Удобный вариант: **Cursor** или **VS Code** — `git clone`, открыть корень репозитория. Редактирование файлов через веб-GitHub тоже ок, для длинных глав обычно приятнее локальный редактор.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Где что лежит
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Что                  | Где                                                                                                    |
+| -------------------- | ------------------------------------------------------------------------------------------------------ |
+| Главы                | `[src/chapters/](src/chapters/)` — `*.md`, порядок вкладок по **имени файла** (`01-...`, `02-...`).    |
+| Заголовок главы в UI | Первая строка файла: `# Заголовок`.                                                                    |
+| Картинки в главе     | Файл в `[public/](public/)` (например `public/chapters/`), в тексте: `![подпись](/chapters/файл.png)`. |
+| «О книге»            | Сейчас в `[src/pages/AboutBookPage.tsx](src/pages/AboutBookPage.tsx)`, не в Markdown.                  |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Публикация
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+**Commit** и **push** в прод-ветку — из **Source Control** в редакторе или как привыкли из терминала. После push деплой (например **Vercel**) пересобирает сайт; через 1–3 минуты смысл проверять в браузере. При подозрении на кеш — жёсткое обновление (**Ctrl+F5** / **Cmd+Shift+R**).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+**Vercel и email в коммите:** если сборка падает с текстом про несовпадение **email автора коммита** с GitHub — в `git config user.email` для этого репозитория должен быть адрес из вашего GitHub (удобно `**…@users.noreply.github.com`** из **Settings → Emails**). Это ограничение хостинга, не логики репозитория.
+
+### Что видит читатель
+
+- Вкладки глав, кегль, разбиение текста на «страницы» по **приблизительному числу символов** (не по высоте окна).
+- **Закладки** — только в браузере (`localStorage`), из репозитория не конфигурируются.
+
+---
+
+## Для AI-агента (код и архитектура)
+
+### Стек
+
+- **React 19**, **TypeScript**, **Vite 8**
+- **react-router-dom** — маршруты
+- **sass** — стили в `*.module.scss`
+- **react-markdown** + **remark-gfm** + **rehype-raw** — рендер Markdown (сырой HTML в md разрешён для особых вставок)
+
+### Точки входа и маршруты
+
+- `[src/main.tsx](src/main.tsx)` — `StrictMode`, `BrowserRouter`
+- `[src/App.tsx](src/App.tsx)` — `BookmarksProvider`, `Routes`: `/` → редирект на `/read/:firstSlug`, `/read/:slug`, `/about-book`, `/about`
+- `[src/layout/AppLayout.tsx](src/layout/AppLayout.tsx)` — шапка + `Outlet`
+
+### Главы и пагинация
+
+- `[src/chapters/registry.ts](src/chapters/registry.ts)` — `import.meta.glob('./*.md', { query: '?raw' })`, сортировка, `getChapters`, `getChapterBySlug`, `paginateMarkdownByCharacters`, `getCharsPerPage`
+- `[src/hooks/useMarkdownPages.ts](src/hooks/useMarkdownPages.ts)` — `useMemo` над списком страниц из `paginateMarkdownByCharacters`
+- `[src/pages/BookPage.tsx](src/pages/BookPage.tsx)` — `BookChapterView` с `key={slug}`, Hero только на первой «странице» текста, `ChapterNavRow`, `PaginatedReader`
+- `[src/components/ChapterBody/ChapterBody.tsx](src/components/ChapterBody/ChapterBody.tsx)` — markdown; кастомный `components.img` вешает класс `bookFloatFigure` для обтекания (`[ChapterBody.module.scss](src/components/ChapterBody/ChapterBody.module.scss)`)
+
+### Закладки
+
+- `[src/bookmarks/bookmarksStorage.ts](src/bookmarks/bookmarksStorage.ts)` — ключ `tzarabook:bookmarks`, тип `Bookmark`, `loadBookmarks` / `persistBookmarks`
+- `[src/context/BookmarksProvider.tsx](src/context/BookmarksProvider.tsx)`, `[src/context/useBookmarks.ts](src/context/useBookmarks.ts)`, `[src/context/bookmarksContext.ts](src/context/bookmarksContext.ts)`
+- UI: `[src/components/BookmarkSelect/BookmarkSelect.tsx](src/components/BookmarkSelect/BookmarkSelect.tsx)`, навигация глав + закладки: `[src/components/ChapterNavRow/ChapterNavRow.tsx](src/components/ChapterNavRow/ChapterNavRow.tsx)`
+- Открытие закладки: `navigate(/read/${slug}?p=${pageIndex})`, обработка в `BookPage` / `BookChapterView` (см. `[BookPage.tsx](src/pages/BookPage.tsx)`)
+
+### Скрипты
+
+- `npm run dev` — разработка
+- `npm run build` — `tsc -b` + production-сборка
+- `npm run lint` — ESLint
+- `npm run preview` — превью production-билда
+
+### Договорённости по правкам
+
+- Не раздувать объём правок без запроса; стиль как в соседних файлах (импорты, SCSS-модули).
+- Не коммитить секреты; переменные окружения — через `.env` / настройки хостинга, не в репозиторий.
+- Статические ассеты для книги — под `[public/](public/)`; импортируемые из кода — под `[src/assets/](src/assets/)`.
+
