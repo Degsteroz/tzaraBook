@@ -1,6 +1,6 @@
 .root {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.65rem;
   flex-shrink: 0;
   position: relative;
@@ -10,7 +10,10 @@
   font-size: 0.8rem;
   color: #8a8078;
   white-space: nowrap;
-  padding-top: 0.45rem;
+  &:before {
+    content: '|';
+    margin-right: 10px;
+  }
 }
 
 .control {
